@@ -14,7 +14,7 @@
   "contributes": {
     "commands": [
       {
-        "command": "erbify.helloWorld",
+        "command": "erbify.convertHamlToErb",
         "title": "Erbify"
       }
     ]

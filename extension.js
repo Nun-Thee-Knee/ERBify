@@ -7,7 +7,7 @@ const { run } = require('./conversion');
 async function activate(context) {
     console.log('Congratulations, your extension "erbify" is now active!');
 
-    const disposable = vscode.commands.registerCommand('erbify.helloWorld', async function () {
+    const disposable = vscode.commands.registerCommand('erbify.convertHamlToErb', async function () {
         const editor = vscode.window.activeTextEditor;
         if (editor) {
             const document = editor.document;
