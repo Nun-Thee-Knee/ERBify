@@ -3,6 +3,10 @@
   "displayName": "erbify",
   "description": "Converts haml file to erb",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Nun-Thee-Knee/erbify"
+  },
   "engines": {
     "vscode": "^1.90.0"
   },
