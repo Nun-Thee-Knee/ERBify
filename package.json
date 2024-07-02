@@ -14,7 +14,7 @@
   "contributes": {
     "commands": [
       {
-        "command": "erbify.erbify",
+        "command": "erbify.helloWorld",
         "title": "Erbify"
       }
     ]

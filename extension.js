@@ -11,26 +11,46 @@ async function activate(context) {
         const editor = vscode.window.activeTextEditor;
         if (editor) {
             const document = editor.document;
-            const haml = document.getText();
+            const oldUri = document.uri;
+            const oldPath = oldUri.fsPath;
+
+            const newPath = oldPath.replace(/\.haml$/, '.erb');
+
+            if (!oldPath.endsWith('.haml')) {
+                console.error('The file does not have a .haml extension.');
+                vscode.window.showErrorMessage('The file does not have a .haml extension.');
+                return;
+            }
+
             try {
+                const newUri = vscode.Uri.file(newPath);
+                await vscode.workspace.fs.rename(oldUri, newUri);
+
+                const newDocument = await vscode.workspace.openTextDocument(newUri);
+                const newEditor = await vscode.window.showTextDocument(newDocument);
+
+                const haml = document.getText();
                 const erb = await run(haml);
-                editor.edit(editBuilder => {
+
+                const editSuccess = await newEditor.edit(editBuilder => {
                     const entireRange = new vscode.Range(
-                        document.positionAt(0),
-                        document.positionAt(document.getText().length)
+                        newDocument.positionAt(0),
+                        newDocument.positionAt(newDocument.getText().length)
                     );
                     editBuilder.replace(entireRange, erb);
-                }).then(success => {
-                    if (success) {
-                        console.log('Text successfully replaced with the conversion result.');
-                        vscode.window.showInformationMessage(`Your text was converted to: ${erb}`);
-                    } else {
-                        console.error('Failed to replace text.');
-                    }
                 });
+
+                if (editSuccess) {
+                    console.log(`File successfully renamed to ${newUri.fsPath}`);
+                    console.log('Text successfully replaced with the conversion result.');
+                    vscode.window.showInformationMessage(`File successfully renamed and text converted to: ${newUri.fsPath}`);
+                } else {
+                    console.error('Failed to replace text.');
+                    vscode.window.showErrorMessage('Failed to replace text.');
+                }
             } catch (error) {
-                console.error('Error during conversion:', error);
-                vscode.window.showErrorMessage(`Conversion failed: ${error.message}`);
+                console.error('Error during conversion or renaming:', error);
+                vscode.window.showErrorMessage(`Error during conversion or renaming: ${error.message}`);
             }
         } else {
             console.log('No active text editor found.');
