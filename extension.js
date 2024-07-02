@@ -1,36 +1,49 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
-
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+const { run } = require('./conversion');
 
 /**
  * @param {vscode.ExtensionContext} context
  */
-function activate(context) {
+async function activate(context) {
+    console.log('Congratulations, your extension "erbify" is now active!');
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "erbify" is now active!');
+    const disposable = vscode.commands.registerCommand('erbify.helloWorld', async function () {
+        const editor = vscode.window.activeTextEditor;
+        if (editor) {
+            const document = editor.document;
+            const haml = document.getText();
+            try {
+                const erb = await run(haml);
+                editor.edit(editBuilder => {
+                    const entireRange = new vscode.Range(
+                        document.positionAt(0),
+                        document.positionAt(document.getText().length)
+                    );
+                    editBuilder.replace(entireRange, erb);
+                }).then(success => {
+                    if (success) {
+                        console.log('Text successfully replaced with the conversion result.');
+                        vscode.window.showInformationMessage(`Your text was converted to: ${erb}`);
+                    } else {
+                        console.error('Failed to replace text.');
+                    }
+                });
+            } catch (error) {
+                console.error('Error during conversion:', error);
+                vscode.window.showErrorMessage(`Conversion failed: ${error.message}`);
+            }
+        } else {
+            console.log('No active text editor found.');
+            vscode.window.showInformationMessage('No active text editor found.');
+        }
+    });
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with  registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('erbify.helloWorld', function () {
-		// The code you place here will be executed every time your command is executed
-
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from erbify! I am a js file');
-	});
-
-	context.subscriptions.push(disposable);
+    context.subscriptions.push(disposable);
 }
 
-// This method is called when your extension is deactivated
 function deactivate() {}
 
 module.exports = {
-	activate,
-	deactivate
+    activate,
+    deactivate
 }
