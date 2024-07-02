@@ -1,66 +1,35 @@
-# erbify README
+# erbify
 
-This is the README for your extension "erbify". After writing up a brief description, we recommend including the following sections.
+Converts HAML files to ERB format within Visual Studio Code.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- Converts HAML syntax to ERB syntax.
+- Provides seamless integration with Visual Studio Code.
+- Supports quick conversion of entire HAML files.
 
-For example if there is an image subfolder under your extension project workspace:
+## Installation
 
-\!\[feature X\]\(images/feature-x.png\)
+1. Launch Visual Studio Code.
+2. Go to the Extensions view by clicking on the square icon in the Activity Bar on the side of the window.
+3. Search for "erbify".
+4. Click on the Install button, and then click on Reload to enable the extension.
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## Usage
 
-## Requirements
+1. Open a `.haml` file in Visual Studio Code.
+2. Use the command palette (Ctrl/Cmd + Shift + P) and type "Erbify".
+3. Select the "Erbify: Convert HAML to ERB" command to convert the current file.
+4. The extension will convert the HAML file to ERB format and update the file extension to `.erb`.
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+## Configuration
 
-## Extension Settings
+No configuration is required for this extension.
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+## Contributing
 
-For example:
+Contributions are welcome! Feel free to submit issues and pull requests on [GitHub](https://github.com/your-github-username/erbify).
 
-This extension contributes the following settings:
+## License
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
-# erbify
+This extension is licensed under the [MIT License](LICENSE).
