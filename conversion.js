@@ -1,34 +1,55 @@
-const {
-    GoogleGenerativeAI,
-  } = require("@google/generative-ai");
-  
-  const apiKey = "AIzaSyCH71wr4XQzrdifvrL5fqKpZ5sQ6RZJU9g";
-  const genAI = new GoogleGenerativeAI(apiKey);
-  
-  const model = genAI.getGenerativeModel({
-    model: "gemini-1.5-flash",
-  });
-  
-  const generationConfig = {
-    temperature: 0,
-    topP: 0.95,
-    topK: 64,
-    maxOutputTokens: 8192,
-    responseMimeType: "text/plain",
-  };
-  
-  async function run(data) {
-    const parts = [
-        { text: `input: Give the equivalent erb code of the haml ${data} and don't give explanation` },
-        { text: "output: " },
-    ];
-  
-    const result = await model.generateContent({
-        contents: [{ role: "user", parts }],
-        generationConfig,
+const vscode = require('vscode');
+const { ChatGoogleGenerativeAI } = require("@langchain/google-genai");
+const { HarmBlockThreshold, HarmCategory } = require("@google/generative-ai");
+
+function getApiKey() {
+    return vscode.workspace.getConfiguration().get('erbify.apiKey');
+}
+
+async function getData(data) {
+    const apiKey = getApiKey();
+
+    if (!apiKey) {
+        vscode.window.showErrorMessage('API key is not set. Please configure it in the settings.');
+        return;
+    }
+
+    const model = new ChatGoogleGenerativeAI({
+        apiKey: apiKey,
+        model: "gemini-pro",
+        maxOutputTokens: 8179,
+        safetySettings: [
+            {
+                category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+                threshold: HarmBlockThreshold.BLOCK_NONE,
+            },
+            {
+                category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+                threshold: HarmBlockThreshold.BLOCK_NONE,
+            },
+            {
+                category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+                threshold: HarmBlockThreshold.BLOCK_NONE,
+            },
+            {
+                category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+                threshold: HarmBlockThreshold.BLOCK_NONE,
+            },
+        ],
     });
-  
-    return result.response.text().split("erb")[1].split("```")[0];
-  }
-  
-  module.exports = { run };
+
+    try {
+        const res = await model.invoke([
+            [
+                "human",
+                `Convert this haml ${data} file to erb`
+            ],
+        ]);
+        return res.content;
+    } catch (error) {
+        console.error('Error invoking model:', error);
+        vscode.window.showErrorMessage('Failed to convert HAML to ERB. Please check your API key and network connection.');
+    }
+}
+
+module.exports = { getData };

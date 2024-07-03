@@ -1,5 +1,5 @@
 const vscode = require('vscode');
-const { run } = require('./conversion');
+const { getData } = require('./conversion');
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -35,7 +35,7 @@ async function activate(context) {
                     console.log('Original content for conversion:', haml);
                     
                     // Run conversion (update the progress message if the API allows for such updates)
-                    const erb = await run(haml);
+                    const erb = await getData(haml);
 
                     progress.report({ increment: 50, message: "Conversion in progress..." });
 

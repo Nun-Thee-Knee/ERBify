@@ -21,7 +21,18 @@
         "command": "erbify.convertHamlToErb",
         "title": "Erbify"
       }
-    ]
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Erbify Settings",
+      "properties": {
+        "erbify.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Your API key"
+        }
+      }
+    }
   },
   "scripts": {
     "lint": "eslint .",
@@ -39,6 +50,7 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.14.1",
+    "@langchain/google-genai": "^0.0.21",
     "@vscode/vsce": "^2.29.0"
   }
 }
