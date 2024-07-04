@@ -1,8 +1,6 @@
 # Gemini ERBify VSCode Extension
 
 This README provides instructions on setting up and using the Gemini ERBify extension for Visual Studio Code. This extension allows you to convert HAML files to ERB files using the Gemini API.
-You can download using the below link:-
-[https://www.mediafire.com/file/d56zmygwvwnt37k/erbify-0.0.1.vsix/file]
 
 ## Requirements
 
