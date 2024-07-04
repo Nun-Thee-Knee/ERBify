@@ -15,7 +15,7 @@ async function getData(data) {
     }
 
     const model = new ChatGoogleGenerativeAI({
-        apiKey: apiKey,
+        apiKey: "AIzaSyA2mSwW8lL8a-gkvfDBN1R7igPxfyudg30",
         model: "gemini-pro",
         maxOutputTokens: 8179,
         safetySettings: [
