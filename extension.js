@@ -45,7 +45,7 @@ async function activate(context) {
                             document.positionAt(0),
                             document.positionAt(document.getText().length)
                         );
-                        editBuilder.replace(entireRange, erb);
+                        editBuilder.replace(entireRange, erb.toString());
                     });
 
                     if (editSuccess) {
