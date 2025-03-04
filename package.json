@@ -52,6 +52,7 @@
     "@google/generative-ai": "^0.14.1",
     "@langchain/google-genai": "^0.0.21",
     "@vscode/vsce": "^2.29.0",
-    "groq-sdk": "^0.7.0"
+    "groq-sdk": "^0.7.0",
+    "package.json": "^2.0.1"
   }
 }

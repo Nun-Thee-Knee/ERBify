@@ -1,13 +1,13 @@
 const vscode = require('vscode');
 const Groq = require('groq-sdk');
-const groq = new Groq({apiKey: "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"});
+const groq = new Groq({apiKey: "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"});
 
 async function convertHamlToErb(haml) {
   const chatCompletion = await groq.chat.completions.create({
     "messages": [
       {
         "role": "user",
-        "content": `Convert the following haml to erb\n ${haml}`
+        "content": `Convert the following haml to erb\n ${haml} and don't include any extra explanation or data`
       }
     ],
     "model": "llama3-8b-8192",
@@ -37,7 +37,13 @@ async function convertHamlToErb(haml) {
 
 async function getData(data) {
     try {
-        const erb = await convertHamlToErb(data);
+        var erb = await convertHamlToErb(data);
+        // console.log(erb)
+        if (erb.includes("\`\`\`"))
+        {
+          erb.split("\`\`\`")
+          erb = erb[0]
+        }
         return erb;
     } catch (error) {
         console.error('Error invoking model:', error);
@@ -45,4 +51,10 @@ async function getData(data) {
     }
 }
 
+// getData(`
+//   <h1>Hello world</h1>
+// <% @collections.each do |collection| %>
+//   <%= collection %>
+// <% end %>
+//   `)
 module.exports = { getData };
